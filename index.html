@@ -64,6 +64,16 @@
       height: 12px;
       border-radius: 5px;
     }
+
+    .gameMessage {
+      position: absolute;
+      top: 10%;
+      text-align: center;
+      left: 20%;
+      width: 60%;
+      background-color: aliceblue;
+      font-size: 2em;
+    }
   </style>
 </head>
 
@@ -98,6 +108,12 @@
       //score
       player.score = 0
 
+      //game start / game over control
+      player.inplay = true;
+
+      // clear moving element
+      gameArea.innerHTML = ""
+
       gameMessage.classList.add("hide")
       startScreen.classList.add("hide")
 
@@ -121,52 +137,64 @@
     function playGame() {
       console.log(player)
 
-      //elements to Object format *(.bird)*
-      let bird = document.querySelector(".bird")
-      let wing = document.querySelector(".wing")
-      let move = false
+      if (player.inplay) {
+
+        //elements to Object format *(.bird)*
+        let bird = document.querySelector(".bird")
+        let wing = document.querySelector(".wing")
+        let move = false
 
 
-      // moving constrains depending on viewport
-      if (keys.ArrowLeft && player.x > 0) {
-        player.x -= player.speed
-        move = true
+        // moving constrains depending on viewport
+        if (keys.ArrowLeft && player.x > 0) {
+          player.x -= player.speed
+          move = true
+        }
+        if (keys.ArrowRight && player.x < (gameArea.offsetWidth - 50)) {
+          player.x += player.speed
+          move = true
+        }
+        if ((keys.ArrowUp || keys.Space) && player.y > 0) {
+          player.y -= player.speed * 5
+          move = true
+        }
+        if (keys.ArrowDown && player.y < (gameArea.offsetHeight - 50)) {
+          player.y += player.speed
+          move = true
+        }
+
+        if (move) {
+          wing.pos = (wing.pos === 15) ? 25 : 15
+          wing.style.top = wing.pos + "px"
+        }
+
+        //gravity
+        player.y += (player.speed * 2)
+
+        // if element is off the viewport
+        // element reaches player.y then invoke playGameOver()
+        if (player.y > gameArea.offsetHeight) {
+          console.log("game over")
+          playGameOver(bird)
+        }
+
+        bird.style.top = player.y + "px"
+        bird.style.left = player.x + "px"
+
+        window.requestAnimationFrame(playGame)
+
+
+        //score - increment
+        player.score++
+        score.innerText = "Score:" + player.score
       }
-      if (keys.ArrowRight && player.x < (gameArea.offsetWidth - 50)) {
-        player.x += player.speed
-        move = true
-      }
-      if ((keys.ArrowUp || keys.Space) && player.y > 0) {
-        player.y -= player.speed * 5
-        move = true
-      }
-      if (keys.ArrowDown && player.y < (gameArea.offsetHeight - 50)) {
-        player.y += player.speed
-        move = true
-      }
+    }
 
-      if (move) {
-        wing.pos = (wing.pos === 15) ? 25 : 15
-        wing.style.top = wing.pos + "px"
-      }
-
-      //gravity
-      player.y += (player.speed*2)
-
-      // if element is off the viewport
-      if (bird.offsetTop > gameArea.offsetHeight) {
-        console.log("game over")
-      }
-
-      bird.style.top = player.y + "px"
-      bird.style.left = player.x + "px"
-
-      window.requestAnimationFrame(playGame)
-
-
-      //score - increment
-      player.score++
-      score.innerText = "Score:"+player.score
+    function playGameOver(bird) {
+      player.inplay = false
+      gameMessage.classList.remove("hide")
+      bird.setAttribute("style", "transform: rotate(180deg)")
+      gameMessage.innerHTML = "Game Over<br>You scored "+player.score+"<br>Click here to start again"
     }
 
     function pressOn(e) {
