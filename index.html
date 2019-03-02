@@ -93,7 +93,11 @@
 
     function start() {
       console.log("start")
-      player.speed = 10
+      player.speed = 2
+
+      //score
+      player.score = 0
+
       gameMessage.classList.add("hide")
       startScreen.classList.add("hide")
 
@@ -133,7 +137,7 @@
         move = true
       }
       if ((keys.ArrowUp || keys.Space) && player.y > 0) {
-        player.y -= player.speed
+        player.y -= player.speed * 5
         move = true
       }
       if (keys.ArrowDown && player.y < (gameArea.offsetHeight - 50)) {
@@ -142,14 +146,27 @@
       }
 
       if (move) {
-        wing.pos = (wing.pos === 15) ? 20 : 15
+        wing.pos = (wing.pos === 15) ? 25 : 15
         wing.style.top = wing.pos + "px"
+      }
+
+      //gravity
+      player.y += (player.speed*2)
+
+      // if element is off the viewport
+      if (bird.offsetTop > gameArea.offsetHeight) {
+        console.log("game over")
       }
 
       bird.style.top = player.y + "px"
       bird.style.left = player.x + "px"
 
       window.requestAnimationFrame(playGame)
+
+
+      //score - increment
+      player.score++
+      score.innerText = "Score:"+player.score
     }
 
     function pressOn(e) {
