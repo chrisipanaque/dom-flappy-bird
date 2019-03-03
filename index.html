@@ -82,7 +82,6 @@
       width: 100px;
       position: absolute;
       text-align: center;
-
     }
   </style>
 </head>
@@ -113,7 +112,7 @@
 
     function start() {
       // console.log("start")
-      player.speed = 2
+      player.speed = 5
 
       //score
       player.score = 0
@@ -141,15 +140,13 @@
       player.x = bird.offsetLeft
       player.y = bird.offsetTop
 
-
       // obstacles
       player.pipe = 0
       let spacing = 300
       let howMany = Math.floor((gameArea.offsetWidth) / spacing)
-      console.log(howMany)
+      // console.log(howMany)
       for (let x = 0; x < howMany; x++) {
         buildPipes(player.pipe * spacing)
-
       }
 
       window.requestAnimationFrame(playGame)
@@ -202,11 +199,31 @@
           item.parentElement.removeChild(item)
           counter++
         }
+
+        // collide
+        if(isCollide(item,bird)) {
+          console.log("crash")
+        }
+
       })
+
+      // TODO: Count pipes and display as score instead!
       counter = counter / 2
       for(let x = 0; x < counter; x++) {
         buildPipes(0)
       }
+    }
+
+    function isCollide(a,b) {
+      let aRect = a.getBoundingClientRect()
+      let bRect = b.getBoundingClientRect()
+
+      return !(
+        (aRect.bottom < bRect.top) || 
+        (aRect.top > bRect.bottom) || 
+        (aRect.right < bRect.left) || 
+        (aRect.left > bRect.right)
+      )
     }
 
     function playGame() {
