@@ -190,14 +190,35 @@
       gameArea.appendChild(pipe2)
     }
 
+    function movePipes(bird) {
+      let lines = document.querySelectorAll(".pipe")
+      let counter = 0 // counts pipes to remove
+      lines.forEach(item=>{
+        // console.log(item)
+        item.x -= player.speed
+        item.style.left = item.x + "px"
+
+        if (item.x < 0) {
+          item.parentElement.removeChild(item)
+          counter++
+        }
+      })
+      counter = counter / 2
+      for(let x = 0; x < counter; x++) {
+        buildPipes(0)
+      }
+    }
+
     function playGame() {
       if (player.inplay) {
-
+        
         //elements to Object format *(.bird)*
         let bird = document.querySelector(".bird")
         let wing = document.querySelector(".wing")
-        let move = false
 
+        //scroll pipes
+        movePipes(bird)
+        let move = false
 
         // moving constrains depending on viewport
         if (keys.ArrowLeft && player.x > 0) {
