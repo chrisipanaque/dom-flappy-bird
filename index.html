@@ -89,9 +89,9 @@
 <body>
   <div class="score"></div>
   <div class="game">
+    <div class="gameArea"></div>
     <div class="startScreen">Press Start</div>
     <span class="gameMessage hide"></span>
-    <div class="gameArea"></div>
   </div>
   <script>
     //https://developer.mozilla.org/en-US/docs/Web/API/KeyboardEvent/key
@@ -142,7 +142,7 @@
 
       // obstacles
       player.pipe = 0
-      let spacing = 300
+      let spacing = 350
       let howMany = Math.floor((gameArea.offsetWidth) / spacing)
       // console.log(howMany)
       for (let x = 0; x < howMany; x++) {
@@ -202,7 +202,7 @@
 
         // collide
         if(isCollide(item,bird)) {
-          console.log("crash")
+          playGameOver(bird)
         }
 
       })
