@@ -19,8 +19,10 @@ Repository: [chrisipanaque/dom-flappy-bird](https://github.com/chrisipanaque/dom
 
 Purpose: Become familiar with the DOM before learning React @LambdaSchool
 
-Resource / Udemy Course: [JavaScript in Action - bird flying game fun with the DOM](https://www.udemy.com/learn-javascript-game-course/l)
+Resource / Udemy Course: [JavaScript in Action - bird flying game fun with the DOM](https://www.udemy.com/learn-javascript-game-course)
 
 [MDN KeyboardEvent](https://developer.mozilla.org/en-US/docs/Web/API/KeyboardEvent/key)
+
 [MDN preventDefault](https://developer.mozilla.org/en-US/docs/Web/API/Event/preventDefault)
+
 [MDN getBoundingClientRect](https://developer.mozilla.org/en-US/docs/Web/API/Element/getBoundingClientRect)
